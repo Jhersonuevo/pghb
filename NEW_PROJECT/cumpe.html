@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fuegos Artificiales Cumpleaños</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+    }
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    #cumplepe{
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+      width: 200px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="fireworks"></canvas>
+  <img id="cumplepe" src="video/cumple-gif.gif" alt="">
+  <script>
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+    const cumplepe = document.getElementById("cumplepe");
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    // === FUEGOS ARTIFICIALES ===
+    class Particle {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.radius = 3;
+        this.color = `hsl(${Math.random() * 360}, 100%, 60%)`;
+        this.alpha = 1;
+        this.velocityX = (Math.random() - 0.5) * 6;
+        this.velocityY = (Math.random() - 0.5) * 6;
+      }
+
+      update() {
+        this.x += this.velocityX;
+        this.y += this.velocityY;
+        this.alpha -= 0.02;
+      }
+
+      draw() {
+        ctx.globalAlpha = this.alpha;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    let particles = [];
+    function createFirework() {
+      let x = Math.random() * canvas.width;
+      let y = Math.random() * canvas.height * 0.5;
+      for (let i = 0; i < 30; i++) {
+        particles.push(new Particle(x, y));
+      }
+    }
+
+    // === CONFIGURACIÓN TEXTO Y GLOBO ===
+    const textFont = "80px Arial";
+    const messageFont = "45px Arial"; // Aumentado
+    let balloonX = canvas.width + 50;
+    const balloonSpeed = 4; // Velocidad aumentada
+    let dropComplete = false;
+    let messageOpacity = 0;
+    let messageColor = "lightpink";
+
+    const pos = {
+      textX: canvas.width / 2,
+      textY: canvas.height / 2 + 100,
+      fiveXTarget: canvas.width / 2 + 80
+    };
+
+    function drawStaticText() {
+      ctx.font = textFont;
+      ctx.fillStyle = "white";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("17", pos.textX, pos.textY);
+    }
+
+    function drawBalloon() {
+      if (!dropComplete) {
+        // Cuerda del globo
+        ctx.strokeStyle = "white";
+        ctx.beginPath();
+        ctx.moveTo(balloonX, pos.textY - 65);
+        ctx.lineTo(balloonX, pos.textY - 35);
+        ctx.stroke();
+
+        // Globo
+        ctx.fillStyle = "red";
+        ctx.beginPath();
+        ctx.ellipse(balloonX, pos.textY - 80, 25, 35, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Número 8
+        ctx.fillStyle = "white";
+        ctx.font = textFont;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("8", balloonX, pos.textY);
+
+        balloonX -= balloonSpeed;
+
+        if (balloonX <= pos.fiveXTarget) {
+          dropComplete = true;
+          createFirework(); // 🎆
+          cumplepe.style.display = "block";
+
+        }
+      } else {
+        // Mostrar 18
+        ctx.font = textFont;
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("18", pos.textX, pos.textY);
+
+        // Mensaje feliz cumpleaños
+        if (messageOpacity < 1) {
+          messageOpacity += 0.01; // Fade-in suave
+        }
+
+        ctx.globalAlpha = messageOpacity;
+        ctx.font = messageFont;
+        ctx.fillStyle = messageColor;
+        ctx.fillText("feliz cumpleaños :)", pos.textX, pos.textY + 80); // Debajo del número
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    // === RASTRO DEL CURSOR ===
+    let mouseTrail = [];
+    const maxTrailLength = 30;
+
+    canvas.addEventListener("mousemove", (e) => {
+      mouseTrail.push({ x: e.clientX, y: e.clientY, alpha: 1 });
+
+      if (mouseTrail.length > maxTrailLength) {
+        mouseTrail.shift(); // Elimina el más viejo
+      }
+    });
+
+    function drawMouseTrail() {
+      for (let i = 1; i < mouseTrail.length; i++) {
+        const prev = mouseTrail[i - 1];
+        const curr = mouseTrail[i];
+
+        ctx.beginPath();
+        ctx.moveTo(prev.x, prev.y);
+        ctx.lineTo(curr.x, curr.y);
+
+        ctx.strokeStyle = `rgba(200, 0, 255, ${curr.alpha})`;
+        ctx.lineWidth = 2;
+        ctx.shadowColor = "#c800ff";
+        ctx.shadowBlur = 10;
+        ctx.stroke();
+
+        // Quitar glow para que no afecte otras cosas
+        ctx.shadowBlur = 0;
+
+        curr.alpha -= 0.03;
+      }
+    }
+
+    function animate() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      drawMouseTrail(); // ✨ Rastro del mouse
+
+      particles.forEach((p, i) => {
+        p.update();
+        p.draw();
+        if (p.alpha <= 0) particles.splice(i, 1);
+      });
+
+      if (!dropComplete) drawStaticText();
+      drawBalloon();
+
+      requestAnimationFrame(animate);
+    }
+
+    // Cambiar color del mensaje de cumpleaños continuamente
+    setInterval(() => {
+      messageColor = `hsl(${Math.random() * 360}, 100%, 60%)`; // Colores aleatorios
+    }, 200); // Cambiar cada 200ms
+
+    setInterval(createFirework, 1000); // Fuegos artificiales cada segundo
+    animate();
+  </script>
+</body>
+</html>

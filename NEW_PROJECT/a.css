@@ -1,0 +1,131 @@
+body {
+  background: radial-gradient(ellipse at bottom, #ffe600 0%, #66137a 100%);
+  margin: 0;
+  overflow: hidden;
+}
+
+
+.yes-button {
+  font-size: 20px;
+  background-color: rgb(32, 230, 32);
+  color: white;
+  padding: 10px 20px;
+  margin-left: 20px;
+  transition: all 0.3s ease-in-out; /* Suaviza el cambio de tamaño */
+}
+
+  .perro{
+    height: 300px;
+    width: 300px;
+    padding-top: 2%;
+  }
+  
+  .no-button {
+    font-size: 20px;
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+  }
+
+  .yes-button, .no-button{
+    margin-right: 1%; 
+  margin-top: 2%; 
+  border: none;
+}
+
+.animar1 {
+  color: #ffffff;
+  margin: 0px;
+  font-size: 60px;
+  font-family: lato;
+  animation: glitch 3s infinite;
+  padding-top: 20px;
+  padding-bottom: 2%;
+  margin-top: 5%;
+  background-color: rgba(19, 193, 59, 0.623);
+  border-radius: 6px; /* Ajusté este valor, ya que "6cqw" no es válido */
+  width: 45%;
+  height: ;
+  border-radius: 20px;
+  text-align: center;
+}
+
+@keyframes glitch{
+  0%{
+    text-shadow: #ea1ded 0px 0px,
+                #940c8d 0px 0px;
+  }
+  50%{
+    text-shadow: #a83ce2 -8px 0px,
+                #b7c042 -8px 0px;
+  }
+  10%{
+    text-shadow: #b4cf06 0px 0px,
+                #0f22da 0px 0px;
+  }
+}
+
+.animar2 {
+  color: #ffffff;
+  margin: 0px;
+  font-size: 50px;
+  font-family: lato;
+  animation: glitch 3s infinite;
+  padding-top: 20px;
+  padding-bottom: 2%;
+  margin-top: 2%;
+  background-color: rgba(4, 160, 238, 0.623);
+  border-radius: 6px; /* Ajusté este valor, ya que "6cqw" no es válido */
+  width: 30%;
+  border-radius: 20px;
+  text-align: center;
+  
+}
+
+@keyframes glitch{
+  0%{
+    text-shadow: #ea1ded 0px 0px,
+                #940c8d 0px 0px;
+  }
+  50%{
+    text-shadow: #a83ce2 -8px 0px,
+                #b7c042 -8px 0px;
+  }
+  10%{
+    text-shadow: #b4cf06 0px 0px,
+                #0f22da 0px 0px;
+  }
+}
+
+.particle {
+  position: absolute;
+  width: 8px;           /* Tamaño base, ajústalo si lo deseas */
+  height: 8px;
+  background: radial-gradient(
+    circle,
+    #FF0000 0%,   /* Rojo */
+    #FF7F00 16%,  /* Naranja */
+    #FFFF00 33%,  /* Amarillo */
+    #00FF00 50%,  /* Verde */
+    #0000FF 66%,  /* Azul */
+    #4B0082 83%,  /* Índigo */
+    #8B00FF 100%  /* Violeta */
+  );
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: particleFade 1.5s ease-out forwards;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
+}
+
+/* Animación para que las partículas se expandan y desvanezcan */
+@keyframes particleFade {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}

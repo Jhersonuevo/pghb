@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day card</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&family=Petemoss&family=Roboto:ital,wght@0,100..900;1,100..900&family=Shantell+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="cartastyle.css">
+</head>
+<body>
+    <div class="envelope">
+        <div class="envelope-lid"></div>
+        <div class="envelope-lid envelope-lid-secondary"></div>
+        <div class="card-wrapper">
+            <div class="card">
+                <div class="card-cover">
+                    <div class="card-side card-side-primary">
+                        <h1 class="card-title">
+                            <span class="card-title-secondary">Happy</span>
+                            <span class="card-title-main">Birthday <span
+                                    class="card-title-apostrophe">🙂💛</span>s</span>
+                            <span class="card-title-secondary">Mirella</span>
+                        </h1>
+                    </div>
+                    <div class="card-side card-side-secondary"></div>
+                </div>
+                <div class="card-body">
+                    <p>Para Mirella,</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni dolorum odit est quos reiciendis veritatis inventore? Eligendi facilis libero voluptas! Atque quos accusantium aut alias qui, unde doloremque iste quasi.—
+                    </p>
+                    <p>Feliz cumpleaños Mirella :)!</p>
+                </div>
+            </div>
+        </div>
+        <div class="heart-seal"></div> </div>
+        <a href="cumpe.html"><button class="continue-btn">Continuar</button></a>
+       <script>
+        const envelope = document.querySelector('.envelope');
+const heartSeal = document.querySelector('.heart-seal');
+let timeoutId;
+envelope.addEventListener('mouseover', () => {
+    clearTimeout(timeoutId);
+    heartSeal.style.opacity = 0;
+});
+envelope.addEventListener('mouseout', () => {
+    timeoutId = setTimeout(() => {
+        heartSeal.style.opacity = 1;
+    }, 1500); 
+});
+heartSeal.style.transition = 'opacity 0.3s ease';
+
+       </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=h1, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="a.css">
+</head>
+<body>
+  <center>
+  <div class="contenedor1">
+  <h1 class="animar1"></h1>
+  <h2 class="animar2"></h2>
+  </div>
+  <img src="img/perro.png" class="perro">
+     <div>
+        <a href="carta.html"><button class="yes-button" onclick="handleYesClick()">BIEN</button></a><
+        <button class="no-button" onclick="handleNoClick()">MAL</button>
+      </div>
+  </center>
+  <br><br><br><br><br>
+<script>
+let texto = "Just kidding, I know who ur!";
+let texto2 = "now, How do u feel today?";
+let i1 = 0;
+let i2 = 0;
+
+function escribit() {
+  if (i1 < texto.length) {
+    document.querySelector(".animar1").textContent += texto[i1++];
+  }
+  if (i2 < texto2.length) {
+    document.querySelector(".animar2").textContent += texto2[i2++];
+  }
+  if (i1 < texto.length || i2 < texto2.length) {
+    setTimeout(escribit, 100);
+  }
+}
+escribit();
+
+function handleNoClick() {
+  const yesButton = document.querySelector(".yes-button");
+
+  // Incrementa el tamaño del botón "SÍ"
+  const currentSize = parseFloat(window.getComputedStyle(yesButton).fontSize);
+  yesButton.style.fontSize = `${currentSize * 1.5}px`; // Multiplica el tamaño por 1.5
+
+  // Asegura que el botón "SÍ" sea visible en todo momento
+  yesButton.style.transition = "all 0.3s ease-in-out"; // Animación suave
+}
+
+
+function random(min, max) {
+      if (max === undefined) {
+        max = min;
+        min = 0;
+      }
+      return Math.random() * (max - min) + min;
+    }
+
+    function createParticle(x, y) {
+      const particle = document.createElement("div");
+      particle.classList.add("particle");
+      const size = random(5, 10);
+      particle.style.width = size + "px";
+      particle.style.height = size + "px";
+      particle.style.left = x + "px";
+      particle.style.top = y + "px";
+      document.body.appendChild(particle);
+      setTimeout(() => particle.remove(), 1500);
+    }
+
+    document.addEventListener("mousemove", (e) => {
+      for (let i = 0; i < 3; i++) {
+        const offsetX = random(-10, 10);
+        const offsetY = random(-10, 10);
+        createParticle(e.clientX + offsetX, e.clientY + offsetY);
+      }
+    });
+</script>
+</body>
+</html>
